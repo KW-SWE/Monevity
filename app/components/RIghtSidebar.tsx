@@ -37,7 +37,7 @@ const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
                 </h2>
               </Link>
             </div>
-            {/* optional chaining when a user has not added a bank yet */}
+            {/* optional chaining to prevent errors when a user has not added a bank yet AKA null/undefined */}
             {banks?.length > 0 && (
               <div className="relative flex flex-1 flex-col items-center justify-center gap-5">
                 <div className="relative z-10">
@@ -45,7 +45,7 @@ const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
                     key={banks[0].$id}
                     account={banks[0]}
                     userName={`${user.firstName} ${user.lastName}`}
-                    shotBalance={false}
+                    showBalance={false}
                   />
                 </div>
                 {banks[1] && (
@@ -54,7 +54,7 @@ const RightSidebar = ({ user, transactions, banks }: RightSidebarProps) => {
                       key={banks[1].$id}
                       account={banks[1]}
                       userName={`${user.firstName} ${user.lastName}`}
-                      shotBalance={false}
+                      showBalance={false}
                     />
                   </div>
                 )}
