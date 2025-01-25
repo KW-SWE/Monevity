@@ -4,7 +4,11 @@ import TotalBalanceBox from '../components/TotalBalanceBox';
 import RightSidebar from '../components/RightSidebar';
 
 const Home = () => {
-  const loggedIn = { firstName: 'Kevin' };
+  const loggedIn = {
+    firstName: 'Kevin',
+    lastName: 'Wong',
+    email: 'kevwong.main@gmail.com ',
+  };
   return (
     <section className="home">
       <div className="home-content">
@@ -23,7 +27,7 @@ const Home = () => {
         </header>
         RECENT Transactions
       </div>
-      <RightSidebar user={loggedIn} transactions={[]} banks={[]} />
+      <RightSidebar user={loggedIn} transactions={[]} banks={[{}, {}]} />
     </section>
   ); // class name 'home' found in globals.css
 };
