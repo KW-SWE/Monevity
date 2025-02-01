@@ -16,8 +16,9 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import CustomInput from './CustomInput';
 
-// error message if form username submission is not at least 2 characters
+// error message if form email submission is not at least 2 characters
 const formSchema = z.object({
   email: z.string().email(),
 });
@@ -25,7 +26,6 @@ const formSchema = z.object({
 const AuthForm = ({ type }: { type: string }) => {
   const [user, setUser] = useState(null); // 'use client' must be set to use useState
 
-  // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -33,10 +33,7 @@ const AuthForm = ({ type }: { type: string }) => {
     },
   });
 
-  // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
     console.log(values);
   }
 
@@ -75,45 +72,20 @@ const AuthForm = ({ type }: { type: string }) => {
         <>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
+              <CustomInput
+                form={form}
                 name="email"
-                render={({ field }) => (
-                  <div className="form-item">
-                    <FormLabel className="form-label">Email</FormLabel>
-                    <div className="flex w-full flex-col">
-                      <FormControl>
-                        <Input
-                          placeholder="Enter your email"
-                          className="input-class"
-                          {...field} // spread is used to pass all props of { field } as individual  props to component, accessible via field....
-                        />
-                      </FormControl>
-                      <FormMessage className="form-message mt-2"></FormMessage>
-                    </div>
-                  </div>
-                )}
+                label="Email"
+                placeholder="Enter your email"
               />
-              <FormField
-                control={form.control}
+              <CustomInput
+                form={form}
                 name="password"
-                render={({ field }) => (
-                  <div className="form-item">
-                    <FormLabel className="form-label">Password</FormLabel>
-                    <div className="flex w-full flex-col">
-                      <FormControl>
-                        <Input
-                          placeholder="Enter your password"
-                          className="input-class"
-                          type="password"
-                          {...field} // spread is used to pass all props of { field } as individual  props to component, accessible via field....
-                        />
-                      </FormControl>
-                      <FormMessage className="form-message mt-2"></FormMessage>
-                    </div>
-                  </div>
-                )}
+                label="Password"
+                placeholder="Enter your password"
+                type="password"
               />
+
               <Button type="submit">Submit</Button>
             </form>
           </Form>
