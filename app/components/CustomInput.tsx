@@ -5,12 +5,23 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { authFormSchema } from '@/lib/utils';
 import React from 'react';
+import { Control, FieldPath } from 'react-hook-form';
+import { z } from 'zod';
 
-const CustomInput = ({ form, name, label, placeholder, type }) => {
+interface CustomInput {
+  control: Control<z.infer<typeof authFormSchema>>;
+  name: FieldPath<z.infer<typeof authFormSchema>>;
+  label: string;
+  placeholder: string;
+  type: string;
+}
+
+const CustomInput = ({ control, name, label, placeholder }: CustomInput) => {
   return (
     <FormField
-      control={form.control}
+      control={control}
       name={name}
       render={({ field }) => (
         <div className="form-item">
@@ -20,7 +31,7 @@ const CustomInput = ({ form, name, label, placeholder, type }) => {
               <Input
                 placeholder={placeholder}
                 className="input-class"
-                type={type}
+                type={name === 'password' ? 'password' : 'text'}
                 {...field} // spread is used to pass all props of { field } as individual  props to component, accessible via field....
               />
             </FormControl>
