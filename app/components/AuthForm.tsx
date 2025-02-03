@@ -18,9 +18,11 @@ import {
 import { Input } from '@/components/ui/input';
 import CustomInput from './CustomInput';
 import { authFormSchema } from '@/lib/utils';
+import { Loader2 } from 'lucide-react';
 
 const AuthForm = ({ type }: { type: string }) => {
   const [user, setUser] = useState(null); // 'use client' must be set to use useState
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof authFormSchema>>({
     resolver: zodResolver(authFormSchema),
@@ -31,7 +33,9 @@ const AuthForm = ({ type }: { type: string }) => {
   });
 
   function onSubmit(values: z.infer<typeof authFormSchema>) {
+    setIsLoading(true);
     console.log(values);
+    setIsLoading(false);
   }
 
   return (
@@ -74,6 +78,7 @@ const AuthForm = ({ type }: { type: string }) => {
                 name="email"
                 label="Email"
                 placeholder="Enter your email"
+                type="text"
               />
               <CustomInput
                 control={form.control}
@@ -82,10 +87,35 @@ const AuthForm = ({ type }: { type: string }) => {
                 placeholder="Enter your password"
                 type="password"
               />
-
-              <Button type="submit">Submit</Button>
+              <div className="flex flex-col gap-4">
+                <Button type="submit" disabled={isLoading} className="form-btn">
+                  {isLoading ? (
+                    <>
+                      <Loader2 size={20} className="animate-spin" /> &nbsp;
+                      Loading...
+                    </>
+                  ) : type === 'sign-in' ? (
+                    'Sign In'
+                  ) : (
+                    'Sign Up'
+                  )}
+                </Button>
+              </div>
             </form>
           </Form>
+          <footer className="flex justify-center gap-1">
+            <p className="text-14 font-normal text-gray-600">
+              {type === 'sign-in'
+                ? "Don't have an account?"
+                : 'Already have an account?'}
+            </p>
+            <Link
+              href={type === 'sign-in' ? '/sign-up' : '/sign-in'}
+              className="form-link"
+            >
+              {type === 'sign-in' ? 'Sign Up' : 'Sign In  '}
+            </Link>
+          </footer>
         </>
       )}
     </section>
