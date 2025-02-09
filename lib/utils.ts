@@ -196,7 +196,18 @@ export const getTransactionStatus = (date: Date) => {
 };
 
 // error message if form email submission is not at least 2 characters
-export const authFormSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-});
+export const authFormSchema = (type: string) =>
+  z.object({
+    //sign-up form: make it optional to input if the type is currently 'sign-in' which will only happen on the sign-in page
+    firstname: type === 'sign-in' ? z.string().optional : z.string().min(3),
+    lastname: type === 'sign-in' ? z.string().optional : z.string().min(3),
+    address1: type === 'sign-in' ? z.string().optional : z.string().max(50),
+    state: type === 'sign-in' ? z.string().optional : z.string().min(2).max(2),
+    postalCode:
+      type === 'sign-in' ? z.string().optional : z.string().min(3).max(6),
+    dob: type === 'sign-in' ? z.string().optional : z.string().min(3),
+    ssn: type === 'sign-in' ? z.string().optional : z.string().min(3),
+    // both
+    email: z.string().email(),
+    password: z.string().min(8),
+  });
