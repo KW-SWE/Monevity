@@ -1,9 +1,14 @@
 import React from 'react';
 import HeaderBox from '../components/HeaderBox';
 import TotalBalanceBox from '../components/TotalBalanceBox';
+import RightSidebar from '../components/RightSidebar';
 
 const Home = () => {
-  const loggedIn = { firstName: 'Kevin' };
+  const loggedIn = {
+    firstName: 'Kevin',
+    lastName: 'Wong',
+    email: 'kevwong.main@gmail.com ',
+  };
   return (
     <section className="home">
       <div className="home-content">
@@ -20,7 +25,13 @@ const Home = () => {
             totalCurrentBalance={1250.35}
           />
         </header>
+        RECENT Transactions
       </div>
+      <RightSidebar
+        user={loggedIn}
+        transactions={[]}
+        banks={[{ currentBalance: 123.5 }, { currentBalance: 250 }]}
+      />
     </section>
   ); // class name 'home' found in globals.css
 };
