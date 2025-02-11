@@ -5,8 +5,13 @@ import { createAdminClient, createSessionClient } from '../appwrite';
 import { cookies } from 'next/headers';
 import { parseStringify } from '../utils';
 
-export const signIn = async () => {
+export const signIn = async ({ email, password }: signInProps) => {
   try {
+    const { account } = await createAdminClient();
+
+    const response = await account.createEmailPasswordSession(email, password);
+
+    return parseStringify(response);
   } catch (error) {
     console.error('Error:', error);
   }
@@ -34,7 +39,7 @@ export const signUp = async (userData: SignUpParams) => {
       secure: true,
     });
 
-    return parseStringify(newUser);
+    return parseStringify(newUserAccount);
   } catch (error) {
     console.error('Error:', error);
   }
@@ -42,7 +47,9 @@ export const signUp = async (userData: SignUpParams) => {
 export async function getLoggedInUser() {
   try {
     const { account } = await createSessionClient();
-    return await account.get();
+    const user = await account.get();
+
+    return parseStringify(user);
   } catch (error) {
     return null;
   }
